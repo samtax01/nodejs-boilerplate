@@ -1,0 +1,9 @@
+node_modules
+./node_modules
+.env
+.idea
+./apidoc/*
+apidoc.json
+apidoc/
+package-lock.json
+.vscode
