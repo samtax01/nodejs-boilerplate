@@ -16,7 +16,7 @@ class AuthRepository {
      * @returns {Promise<*>}
      */
     async list() {
-        return await this.model.find().select("first_name last_name").exec();
+        return await this.model.find().select("-password").exec();
     }
 
 
@@ -33,7 +33,16 @@ class AuthRepository {
         });
     }
 
-
+    /**
+     * Update User Information
+     * @returns {Promise<*>}
+     * @param _id
+     * @param newData
+     */
+    async update(_id, newData) {
+        await this.model.findOneAndUpdate({_id}, newData).exec();
+        return this.get({_id});
+    }
 
 
     /**
@@ -60,19 +69,6 @@ class AuthRepository {
      */
     async get(searchParam) {
         return await this.model.findOne(searchParam).then(async (user) => {
-            if (!user) throw Error('Invalid Search Param');
-            return this._appendToken(user);
-        });
-    }
-
-
-    /**
-     * Get User Information with new token
-     * @returns {Promise<*>}
-     * @param email
-     */
-    async newToken(email) {
-        return await this.model.findOne({email}).then(async (user) => {
             if (!user) throw Error('Invalid Search Param');
             return this._appendToken(user);
         });

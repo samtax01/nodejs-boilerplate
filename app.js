@@ -4,8 +4,21 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const passport = require('passport');
 const path = require('path');
+const config = require("./config");
 
 try{
+
+    // define directory
+    global.__base = __dirname + '/';
+
+    // All code in your mongoose schema js files should have run before it is used in other files.
+    // For example, the following code snippet makes sure the mongoose schema files/modules are executed. https://stackoverflow.com/a/38970017/5385845
+    require("fs").readdirSync(__dirname + '/app/models').forEach( (file)=> {
+        if (~file.indexOf('.js')) require(__dirname + '/app/models/' + file);
+    });
+
+
+
     // Initialize App
     const app = express();
 
@@ -23,12 +36,6 @@ try{
     //cors
     app.use(cors());
 
-    // Import App config
-    const config = require("./config");
-
-    // define directory
-    global.__base = __dirname + '/';
-
 
     // Database configuration
     mongoose.Promise = global.Promise;
@@ -38,11 +45,6 @@ try{
         useUnifiedTopology: true
     });
     mongoose.connection.once('open', () => {
-        // All code in your mongoose schema js files should have run before it is used in other files.
-        // For example, the following code snippet makes sure the mongoose schema files/modules are executed. https://stackoverflow.com/a/38970017/5385845
-        require("fs").readdirSync(__dirname + '/app/models').forEach( (file)=> {
-            if (~file.indexOf('.js')) require(__dirname + '/app/models/' + file);
-        });
         console.log('MongoDB Ready...')
     }).on('error', (error) => console.log('Error connecting to MongoDB:', error));
 
@@ -65,7 +67,7 @@ try{
 
     app.listen(port, () => { console.log("Running App on port " + port); });
     //listener = app.listen(null, () => { console.log("Running App on port " + listener.address().port); });
-}catch (e){
-    console.error("Error Starting Application...", e.toLocaleString());
+}catch (err){
+    console.error("Error Starting Application...", err.message());
 }
 

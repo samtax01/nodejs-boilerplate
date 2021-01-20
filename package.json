@@ -26,7 +26,7 @@
     "@sentry/node": "^5.27.0",
     "@sentry/tracing": "^5.27.0",
     "aws-sdk": "^2.785.0",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",

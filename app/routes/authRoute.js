@@ -9,8 +9,12 @@ router.post('/login', authController.login);
 
 router.post('/renew',
     passport.authenticate('bearer', {session: false}, null),
-    // middleware(userValidator.listUsers, 'params')
-    authController.newToken
+    authController.renewToken
+);
+
+router.patch('/update',
+    passport.authenticate('bearer', {session: false}, null),
+    authController.update
 );
 
 module.exports = router;

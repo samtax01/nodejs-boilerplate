@@ -87,7 +87,6 @@ UserSchema.methods.generateJWToken = function () {
         token_type: "Bearer",
         access_token: jwt.encode({
             id: this._id,
-            expires_at,
             email: this.email,
             phone_number: this.phone_number,
         }, config.authSecret)

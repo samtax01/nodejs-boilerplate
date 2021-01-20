@@ -1,7 +1,7 @@
 'use strict';
-
 const Joi = require('joi');
 const FormValidator = require('../helpers/formValidator');
+
 
 const authValidation = {
     signUp: new FormValidator({
@@ -17,20 +17,19 @@ const authValidation = {
         password: Joi.string().required()
     }),
 
+    update: new FormValidator({
+        first_name: Joi.string().optional(),
+        last_name: Joi.string().optional(),
+        phone_number: Joi.string().optional(),
+        email: Joi.string().email({tlds: {allow: false}}).optional(),
+    }),
+
     list: new FormValidator({
-        page: Joi.string().allow('').optional(),
-        pageSize: Joi.string().allow('').optional()
+        page: Joi.string().allow('').optional().default(1),
+        limit: Joi.number().allow('').optional().default(15),
     }),
 
     get: new FormValidator({
-        id: Joi.string().required()
-    }),
-
-    update: new FormValidator({
-        id: Joi.string().required()
-    }),
-
-    delete: new FormValidator({
         id: Joi.string().required()
     }),
 };
